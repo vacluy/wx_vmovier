@@ -1,0 +1,32 @@
+{
+    "pages": [
+        "pages/find/find",
+        "pages/search/search",
+        "pages/post/post",
+        "pages/play/play"
+    ],
+    "window": {
+        "backgroundTextStyle": "dark",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "vacluy视频",
+        "navigationBarTextStyle": "black",
+        "enablePullDownRefresh": true,
+        "onReachBottomDistance": 20
+    },
+    "sitemapLocation": "sitemap.json",
+    "usingComponents": {
+        "van-button": "@vant/weapp/button/index",
+        "van-nav-bar": "@vant/weapp/nav-bar/index",
+        "van-icon": "@vant/weapp/icon/index",
+        "van-tab": "@vant/weapp/tab/index",
+        "van-tabs": "@vant/weapp/tabs/index",
+        "van-overlay": "@vant/weapp/overlay/index",
+        "van-loading": "@vant/weapp/loading/index",
+        "van-grid": "@vant/weapp/grid/index",
+        "van-grid-item": "@vant/weapp/grid-item/index",
+        "van-popup": "@vant/weapp/popup/index",
+        "van-field": "@vant/weapp/field/index",
+        "van-dropdown-menu": "@vant/weapp/dropdown-menu/index",
+        "van-dropdown-item": "@vant/weapp/dropdown-item/index"
+    }
+}

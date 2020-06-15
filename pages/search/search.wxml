@@ -1,0 +1,58 @@
+<!--pages/search/search.wxml-->
+<!-- <text>pages/search/search.wxml</text> -->
+<view class="main">
+	<view class="searchInput">
+		<van-icon class="search-icon" name="search" />
+		<input model:value="{{searchValue}}" type="text" class="search" placeholder="请输入要搜索的内容" placeholder-class="placeholder" confirm-type="search" bindconfirm="sendSearch"></input>
+		<van-icon wx:if="{{searchValue.length > 0}}" bindtap="resetValue" class="close-icon" name="close" />
+		<text class="reset" bindtap="resetValue">取消</text>
+	</view>
+
+	<!-- 未搜索前面板 -->
+	<view class="before-search" wx:if="{{searchValue.length == 0}}">
+		<!-- 热门搜索 -->
+		<view class="key-word">
+			<view class="key-title">热门搜索</view>
+			<view class="key-tag">
+				<text class="tag-item" wx:for="{{hotWord.recommend_keywords}}" wx:key="index" bindtap="sendWord" data-kw="{{item.kw}}">{{item.kw}}</text>
+			</view>
+		</view>
+
+		<!-- 搜索历史 -->
+		<view class="key-word">
+			<view class="key-title">
+				<view>
+					搜索历史
+				</view>
+				<view class="clear-icon" wx:if="{{historyWord.length > 0}}" bindtap="clearHistory">
+					<view class="clear-text">清除</view>
+					<van-icon name="delete" />
+				</view>
+			</view>
+			<view class="key-tag" wx:if="{{historyWord.length > 0}}">
+				<text class="tag-item" wx:for="{{historyWord}}" wx:key="index" bindtap="sendWord" data-kw="{{item}}" >{{item}}</text>
+			</view>
+			<view class="empty-tip" wx:if="{{historyWord.length == 0}}">还没有任何搜索记录</view>
+		</view>
+	</view>
+	<!-- 已搜索面板 -->
+	<view class="after-search" wx:if="{{searchList.list.length > 0}}">
+		<van-dropdown-menu active-color="#B6B6B6">
+			<van-dropdown-item model:value="{{ type }}" options="{{ filterList.type }}" title-class="select-item" popup-style="maxHeight:80vh;overfollowY:scroll" bind:change="sendSelected" />
+			<van-dropdown-item model:value="{{ order }}" options="{{ orList }}" title-class="select-item" popup-style="maxHeight:80vh;overfollowY:scroll" bind:change="sendSelected" />
+			<van-dropdown-item model:value="{{ cateid }}" options="{{ filterList.cate }}" title-class="select-item" popup-style="maxHeight:80vh;overfollowY:scroll" bind:change="sendSelected" />
+		</van-dropdown-menu>
+		<view class="total">{{searchList.total}}个相关影片</view>
+		<card wx:for="{{searchList.list}}" post="{{item}}" wx:key="index"></card>
+		<block wx:for="{{moreList}}" wx:for-item="items" wx:for-index="idx" wx:key="idx">
+			<card wx:for="{{items.list}}" wx:for-item="item" post="{{item}}" wx:key="index"></card>
+		</block>
+		<view class="more" bindtap="getMore">点击加载更多</view>
+	</view>
+</view>
+<!-- 遮罩 -->
+<van-overlay show="{{ show }}">
+	<view class="wrapper">
+		<van-loading vertical color="#1989fa">加载中...</van-loading>
+	</view>
+</van-overlay>

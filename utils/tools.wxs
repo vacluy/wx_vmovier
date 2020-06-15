@@ -1,0 +1,19 @@
+
+
+var parseCates = function (cates) {
+    if (cates) {
+      return cates.map(function (item) {
+        return item.catename
+      }).join(',')
+    } else {
+      return ''
+    }
+  
+  }
+  var parseTime = function (t) {
+    return parseInt(t / 60) + "'" + t % 60 + '"'
+  }
+  module.exports = {
+    parseCates: parseCates,
+    parseTime: parseTime
+  };

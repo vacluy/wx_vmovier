@@ -1,0 +1,27 @@
+/* components/card/card.wxss */
+.postitem {
+    position: relative;
+}
+
+.postitem image {
+    display: block;
+    width: 100%;
+    filter: brightness(0.6);
+
+}
+
+.postitem .info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 15px;
+    color: white;
+
+}
+
+.card-title_c{
+    max-width: 80vw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

@@ -1,0 +1,13 @@
+<!--components/card/index.wxml-->
+<!-- <text>components/card/index.wxml</text> -->
+
+<wxs src="../../utils/tools.wxs" module="tools" />
+
+<view class="postitem" data-post='{{post}}' bindtap="navigateToPlay">
+  <image width="100%" fit="widthFix" src="{{post.image}}" />
+  <view class="info">
+    <view>{{tools.parseCates(post.cates)}} / {{tools.parseTime(post.duration)}}</view>
+    <view class="card-title_c">{{post.title}}</view>
+  </view>
+</view>
+

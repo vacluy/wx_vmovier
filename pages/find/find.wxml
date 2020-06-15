@@ -1,0 +1,223 @@
+<!--pages/find/find.wxml-->
+<wxs src="../../utils/tools.wxs" module="tools" />
+<van-nav-bar bind:click-left="onClickLeft" bind:click-right="onClickRight">
+	<van-icon name="calender-o" slot="left" />
+	<van-tabs slot="title" active="{{ active }}" bind:change="onChange" swipeable="true" >
+		<van-tab title="发现">
+		<!-- 轮播图 -->
+			<view class="page-section page-section-spacing swiper">
+				<swiper indicator-dots="{{indicatorDots}}" indicator-color="rgba(255,255,255, 0.2)" indicator-active-color="rgba(255,255,255,0.8)" autoplay="true" interval="4000" >
+					<block wx:for="{{findList.banner.list}}" wx:key="index" wx:for-item="item">
+						<swiper-item>
+							<view class="swiper-item">
+								<image mode="widthFix" class="auto-img" src="{{item.image}}"></image>
+							</view>
+						</swiper-item>
+					</block>
+				</swiper>
+			</view>
+			<!-- 今日 -->
+			<view class="card-item">
+				<view class="title">
+					<text class="text">{{findList.today.selection_title}}</text>
+				</view>
+				<view class="img" wx:for="{{findList.today.list}}" wx:key="index">
+					<image bindtap="routeToPlay" class="auto-img" src="{{item.image}}" data-postid="{{item.postid}}"></image>
+					<view class="content">
+						<view class="c-info">
+							<text>{{tools.parseCates(item.cates)}}</text>
+							/
+							<text>{{tools.parseTime(item.duration)}}</text>
+						</view>
+						<view class="c-title">{{item.wx_small_app_title}}</view>
+					</view>
+				</view>
+			</view>
+
+			<!-- 热门 -->
+			<view class="card-item clearfix">
+				<view class="title" bindtap="navigateToPost" data-tab="{{findList.hot.scheme}}" >
+					<text class="text">{{findList.hot.selection_title}}</text>
+					<text class="more">more</text>
+				</view>
+				<block wx:for="{{findList.hot.list}}" wx:key="index">
+					<view class="img" wx:if="{{index == 0}}">
+						<image  bindtap="routeToPlay" class="auto-img" src="{{item.image}}" data-postid="{{item.postid}}"></image>
+						<view class="content">
+							<view class="c-info">
+								<text>{{tools.parseCates(item.cates)}}</text>
+								/
+								<text>{{tools.parseTime(item.duration)}}</text>
+							</view>
+							<view class="c-title">{{item.wx_small_app_title}}</view>
+						</view>
+					</view>
+					<view class="img special fl" wx:if="{{index >= 1}}">
+						<image  bindtap="routeToPlay" class="auto-img" src="{{item.image}}" data-postid="{{item.postid}}"></image>
+						<view class="content">
+							<view class="c-info">
+								<text>{{tools.parseCates(item.cates)}}</text>
+								/
+								<text>{{tools.parseTime(item.duration)}}</text>
+							</view>
+							<view class="c-title">{{item.wx_small_app_title}}</view>
+						</view>
+					</view>
+				</block>
+			</view>
+
+			<!-- 专题 -->
+			<view class="card-item">
+				<view class="title" bindtap="navigateToPost" data-tab="{{findList.hot.scheme}}">
+					<text class="text">{{findList.album.selection_title}}</text>
+					<text class="more">more</text>
+				</view>
+				<view class="img" wx:for="{{findList.album.list}}" wx:key="index">
+					<image bindtap="routeToPlay" class="auto-img" src="{{item.image}}" data-postid="{{item.postid}}"></image>
+					<view class="content">
+						<view class="c-info">
+							<text>{{tools.parseCates(item.cates)}}</text>
+							/
+							<text>{{tools.parseTime(item.duration)}}</text>
+						</view>
+						<view class="c-title">{{item.wx_small_app_title}}</view>
+					</view>
+				</view>
+			</view>
+
+			<!-- Post -->
+			<view class="card-item">
+				<view class="title">
+					<text class="text">{{findList.posts.selection_title}}</text>
+				</view>
+				<view class="img" wx:for="{{findList.posts.list}}" wx:key="index">
+					<image bindtap="routeToPlay" class="auto-img" src="{{item.image}}" data-postid="{{item.postid}}" ></image>
+					<view class="content">
+						<view class="c-info">
+							<text>{{tools.parseCates(item.cates)}}</text>
+							/
+							<text>{{tools.parseTime(item.duration)}}</text>
+						</view>
+						<view class="c-title">{{item.wx_small_app_title}}</view>
+					</view>
+				</view>
+			</view>
+
+			<!-- history -->
+			<block wx:for="{{historyList}}" wx:key="index" wx:for-item="list">
+				<view wx:if="{{historyList.length != 0}}" class="card-item">
+					<view class="title">
+						<text class="text">{{list.data.selection_title}}</text>
+					</view>
+					<view class="img" wx:for="{{list.data.list}}" wx:for-index="idx" wx:for-item="item" wx:key="idx">
+						<image bindtap="routeToPlay" class="auto-img" src="{{item.image}}" data-postid="{{item.postid}}"></image>
+						<view class="content">
+							<view class="c-info">
+								<text>{{tools.parseCates(item.cates)}}</text>
+								/
+								<text>{{tools.parseTime(item.duration)}}</text>
+							</view>
+							<view class="c-title">{{item.wx_small_app_title}}</view>
+						</view>
+					</view>
+				</view>
+			</block>
+			
+
+			<!-- loading -->
+			<view  wx:if="{{loading}}" class="mask"></view>
+			<van-loading  wx:if="{{loading}}" size="24px" vertical>加载中...</van-loading>
+		</van-tab>
+		<van-tab title="频道">
+			<van-grid column-num="2" border="{{ false }}">
+  				<van-grid-item use-slot wx:for="{{ channelList }}" wx:for-item="item"  wx:key="index">
+				  <view class="channel-card">
+					<image
+						bindtap="routeToPost"
+						data-item="{{item}}"
+						class="img"
+						fit="cover"
+						style="width: 100%;"
+						src="{{item.icon}}"
+					/>
+					<view class="channel-title">#{{item.catename}}#</view>
+				  </view>
+  				</van-grid-item>
+			</van-grid>
+		</van-tab>
+		<van-tab title="我的">
+			<view class="my-bg">
+				<view class="header">
+					<image class="bg" src="../../assets/img/bg.jpg"></image>
+					<view class="head-por">
+						<image class="por" src="../../assets/img/default.jpeg"></image>
+					</view>
+					<view class="btn">点击登录</view>
+				</view>
+				<view class="section">
+					<view class="list-item">
+						<van-icon name="like-o" />
+						<text class="list-content">我的喜欢</text>
+						<van-icon name="arrow" />
+					</view>
+					<view class="list-item">
+						<van-icon name="down" />
+						<text class="list-content">离线缓存</text>
+						<van-icon name="arrow" />
+					</view>
+					<view class="list-item">
+						<van-icon name="underway-o" />
+						<text class="list-content">播放历史</text>
+						<van-icon name="arrow" />
+					</view>
+					<view class="list-item">
+						<van-icon name="bell" />
+						<text class="list-content">我的消息</text>
+						<van-icon name="arrow" />
+					</view>
+				</view>
+				<view class="footer">
+					<view class="list-item">
+						<van-icon name="setting-o" />
+						<text class="list-content special">设置</text>
+						<van-icon name="arrow" />
+					</view>
+					<view class="list-item">
+						<van-icon name="edit" />
+						<text class="list-content">问题反馈</text>
+						<van-icon name="arrow" />
+					</view>
+				</view>
+			</view>
+		</van-tab>
+	</van-tabs>
+	<van-icon name="search" slot="right" />
+</van-nav-bar>
+<!-- 弹出层 - 每日推荐 -->
+<van-popup show="{{ showPop }}" closeable close-icon-position="top-right"  close-icon="cross" z-index="9999" bind:close="onClose" position="top" >
+	<view class="container">
+		<image class="blur-img" mode="scaleToFill" src="{{dayList.image_blurred}}"></image>
+		<view class="day-header">
+			<image class="rel-img" mode="scaleToFill" src="{{dayList.image}}"></image>
+			<view class="time">
+				<view class="day-time">{{dayList.time.day}}</view>
+				<view class="line">|</view>
+				<view class="date-time">
+					<view class="month">{{dayList.time.month}}</view>
+					<view class="year">{{dayList.time.year}}</view>
+				</view>
+			</view>
+		</view>
+		<view class="day-content">
+			<view class="day-title">{{dayList.title}}</view>
+			<view class="day-text">{{dayList.content}}</view>
+			<view class="day-icon"><van-icon name="share" /></view>
+		</view>
+	</view>
+</van-popup>
+<!-- 遮罩 -->
+<van-overlay show="{{ show }}">
+	<view class="wrapper">
+		<van-loading vertical color="#1989fa">加载中...</van-loading>
+	</view>
+</van-overlay>

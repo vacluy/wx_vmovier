@@ -1,0 +1,13 @@
+<!--pages/posts/posts.wxml-->
+<!-- <text>pages/posts/posts.wxml</text> -->
+<card wx:for="{{postList}}" post="{{item}}" wx:key="index"></card>
+<block wx:for="{{moreList}}" wx:for-item="item" wx:key="idx">
+	<card wx:for="{{item.data}}" wx:for-item="data" post="{{data}}" wx:key="index"></card>
+</block>
+<view class="mask" wx:if="{{showLoading}}">
+	<van-loading size="24px" vertical>加载中...</van-loading>
+</view>
+
+
+<!-- 在页面内添加对应的节点 -->
+<van-notify id="van-notify" />
